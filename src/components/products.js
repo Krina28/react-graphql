@@ -6,6 +6,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,7 +41,6 @@ export default function TitlebarGridList() {
 
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
-
     return (
         <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
@@ -48,13 +48,15 @@ export default function TitlebarGridList() {
                     <ListSubheader component="div">All Products</ListSubheader>
                 </GridListTile>
                 {data.getAllProducts.map(tile => (
-                    <GridListTile key={tile._id}>
-                        <img src={tile.image} alt={tile.fname} />
-                        <GridListTileBar
-                            title={tile.fname}
-                            subtitle={<span>by: {tile.category}</span>}
-                        />
-                    </GridListTile>
+                    <Link to={`/products/${tile._id}`}>
+                        <GridListTile key={tile._id}>
+                            <img src={tile.image} alt={tile.fname} />
+                            <GridListTileBar
+                                title={tile.fname}
+                                subtitle={<span>by: {tile.category}</span>}
+                            />
+                        </GridListTile>
+                    </Link>
                 ))}
             </GridList>
         </div>

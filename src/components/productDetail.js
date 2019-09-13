@@ -9,38 +9,42 @@ import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
 
 const Product = (props) => {
+    const { location } = props;
+    let path = location.pathname.split('/');
+    let productId = path[path.length - 1]
+
     const GET_PRODUCT = gql`
-    {
-        getProductById {
+    query getProductById($_id: String!) {
+        getProductById(_id: $_id) {
+            _id
             fname
             category
-            image
             warehouse
         }
-    }
-`;
-    const { loading, error, data } = useQuery(GET_PRODUCT);
+      }
+    `;
 
-    console.log(data)
+    const { loading, error, data } = useQuery(GET_PRODUCT, { variables: { _id: productId } });
+
     return (
         <div>
-            {props.course ? (
+            {data && data.getProductById ? (
                 <Card >
                     <CardMedia style={{ height: 0, paddingTop: '56.25%' }}
-                        image={props.course.fields.courseImage.fields.file.url}
-                        title={props.course.fields.title}
+                        image=""
+                        title={data.getProductById.fname}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="headline" component="h2">
-                            {props.course.fields.title}
+                            {data.getProductById.category}
                         </Typography>
                         <Typography component="p">
-                            {props.course.fields.description}
+                            {data.getProductById.warehouse}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color="primary" href={props.course.fields.url} target="_blank">
-                            Go To Course
+                        <Button size="small" color="primary" target="_blank">
+                            Add To Cart
                     </Button>
                     </CardActions>
                 </Card>

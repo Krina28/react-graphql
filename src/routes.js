@@ -1,23 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy, } from 'react';
 import {
-    BrowserRouter as Router,
+    Router,
     Route,
     Switch,
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import Products from './components/products'
+import ErrorBoundary from "./components/errorBoundary";
+
+const ProductDetail = lazy(() => import("./components/productDetail"))
+const Products = lazy(() => import("./components/products"))
+const Login = lazy(() => import("./components/login"))
 
 const history = createBrowserHistory();
 class Routes extends Component {
     render() {
         return (
             <Router history={history}>
-                <Switch>
-                    <Route exact path="/" component={Products} />
-                    {/* <Route path="/products/:id" component={ProductDetail} />
-                            <Route path="/companies" component={Company} />
+                <ErrorBoundary>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Switch>
+                            <Route exact path="/" component={Products} />
+                            <Route exact path="/products" component={Products} />
+                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/products/:id" component={ProductDetail} />
+                            {/* <Route path="/companies" component={Company} />
                             <Route path="*" component={NotFound} /> */}
-                </Switch>
+                        </Switch>
+                    </Suspense>
+                </ErrorBoundary>
             </Router>
         )
     }
