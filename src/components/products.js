@@ -7,6 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
+import Error from '../common/error';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,9 +41,9 @@ export default function TitlebarGridList() {
     const classes = useStyles();
 
     if (loading) return 'Loading...';
-    if (error) return `Error! ${error.message}`;
     return (
         <div className={classes.root}>
+            {error && <Error />}
             <GridList cellHeight={180} className={classes.gridList}>
                 <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                     <ListSubheader component="div">All Products</ListSubheader>

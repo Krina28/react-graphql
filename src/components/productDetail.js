@@ -2,11 +2,11 @@ import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography';
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
+import Error from '../common/error';
 
 const Product = (props) => {
     const { location } = props;
@@ -28,14 +28,14 @@ const Product = (props) => {
 
     return (
         <div>
-            {data && data.getProductById ? (
+            {error && <Error />}
+            {data && data.getProductById && (
                 <Card >
-                    <CardMedia style={{ height: 0, paddingTop: '56.25%' }}
-                        image=""
-                        title={data.getProductById.fname}
-                    />
                     <CardContent>
                         <Typography gutterBottom variant="headline" component="h2">
+                            {data.getProductById.fname}
+                        </Typography>
+                        <Typography component="p">
                             {data.getProductById.category}
                         </Typography>
                         <Typography component="p">
@@ -48,7 +48,7 @@ const Product = (props) => {
                     </Button>
                     </CardActions>
                 </Card>
-            ) : 'No data'}
+            )}
         </div>
     )
 }
