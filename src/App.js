@@ -6,7 +6,11 @@ import Header from './components/header';
 import Routes from './routes';
 
 const client = new ApolloClient({
-    uri: "http://localhost:3000/graphql"
+    uri: "http://localhost:3000/graphql",
+    onError: ({ networkError, graphQLErrors }) => {
+        console.log('graphQLErrors', graphQLErrors)
+        console.log('networkError', networkError)
+    }
 });
 
 function App() {

@@ -7,9 +7,10 @@ import {
 import { createBrowserHistory } from 'history';
 import ErrorBoundary from "./components/errorBoundary";
 
-const ProductDetail = lazy(() => import("./components/productDetail"))
-const Products = lazy(() => import("./components/products"))
-const Login = lazy(() => import("./components/login"))
+const ProductDetail = lazy(() => import("./components/productDetail"));
+const Products = lazy(() => import("./components/products"));
+const Login = lazy(() => import("./components/login"));
+const Cart = lazy(() => import("./components/cart"));
 
 const history = createBrowserHistory();
 class Routes extends Component {
@@ -23,6 +24,7 @@ class Routes extends Component {
                             <Route exact path="/products" component={Products} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/products/:id" component={ProductDetail} />
+                            <Route exact path="/cart" component={Cart} />
                             {/* <Route path="/companies" component={Company} />
                             <Route path="*" component={NotFound} /> */}
                         </Switch>
